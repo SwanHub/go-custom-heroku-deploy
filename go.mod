@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/gin-gonic/gin v1.4.0
-	github.com/gopherjs/gopherjs v0.0.0-20190915194858-d3ddacdb130f
+	github.com/gopherjs/gopherjs v0.0.0-20190915194858-d3ddacdb130f // indirect
 	github.com/kisielk/gotool v1.0.0 // indirect
 	github.com/neelance/astrewrite v0.0.0-20160511093645-99348263ae86 // indirect
 	github.com/neelance/sourcemap v0.0.0-20151028013722-8c68805598ab // indirect
