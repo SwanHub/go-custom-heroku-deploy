@@ -57,10 +57,10 @@ func NewUser(w http.ResponseWriter, r *http.Request) {
 	email := vars["email"]
 
 	newUser := map[string]string{"name": name, "email": email}
-	newUserJson, _ := json.Marshal(newUser)
+	// newUserJson, _ := json.Marshal(newUser)
 
 	db.Create(&User{Name: name, Email: email})
-	json.NewEncoder(w).Encode(newUserJson)
+	json.NewEncoder(w).Encode(newUser)
 	// fmt.Fprintf(w, "New User Successfully created")
 }
 
