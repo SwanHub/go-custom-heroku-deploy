@@ -95,6 +95,6 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	user.Email = email
 
 	db.Save(&user)
-	// json.NewEncoder(w).Encode(&user)
-	fmt.Fprintf(w, "Updated User")
+	json.NewEncoder(w).Encode(&user)
+	// fmt.Fprintf(w, "Updated User")
 }
