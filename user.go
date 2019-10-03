@@ -73,7 +73,8 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	var user User
 	db.Where("name = ?", name).Find(&user)
 	db.Delete(&user)
-	fmt.Fprintf(w, "Deleted user")
+	json.NewEncoder(w).Encode(user)
+	// fmt.Fprintf(w, "Deleted user")
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
