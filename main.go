@@ -21,7 +21,7 @@ func handleRequests() {
 	myRouter.HandleFunc("/user/{name}/{email}", NewUser).Methods("POST")
 	myRouter.HandleFunc("/user/{name}", DeleteUser).Methods("DELETE")
 	myRouter.HandleFunc("/user/{name}/{email}", UpdateUser).Methods("PUT")
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(myRouter))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(myRouter)))
 }
 
 func main() {
