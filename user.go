@@ -56,8 +56,12 @@ func NewUser(w http.ResponseWriter, r *http.Request) {
 	name := vars["name"]
 	email := vars["email"]
 
+	newUser := map[string]string{"name": name, "email": email}
+	newUserJson, _ := json.Marshal(newUser)
+
 	db.Create(&User{Name: name, Email: email})
-	fmt.Fprintf(w, "New User Successfully created")
+	json.NewEncoder(w).Encode(newUserJson)
+	// fmt.Fprintf(w, "New User Successfully created")
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -73,7 +77,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	var user User
 	db.Where("name = ?", name).Find(&user)
 	db.Delete(&user)
-	json.NewEncoder(w).Encode({"delete": name})
+	json.NewEncoder(w).Encode(name)
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
