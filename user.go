@@ -19,7 +19,7 @@ type User struct {
 	gorm.Model
 	Name  string
 	Email string
-}
+} 
 
 func InitialMigration() {
 	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
