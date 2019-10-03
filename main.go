@@ -1,68 +1,32 @@
-package main 
+package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"database/sql"
-	"time"
-	"fmt"
 
-
-	"github.com/gin-gonic/gin"
-	_ "github.com/lib/pq"
-	// "github.com/gorilla/handlers"
-	// "github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
-func main(){
-	port := os.Getenv("PORT")
+func helloWorld(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello world")
+}
 
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatalf("Error opening database: %q", err)
-	}
+func handleRequests() {
+	myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/", helloWorld).Methods("GET")
+	myRouter.HandleFunc("/users", AllUsers).Methods("GET")
+	myRouter.HandleFunc("/user/{name}/{email}", NewUser).Methods("POST")
+	myRouter.HandleFunc("/user/{name}", DeleteUser).Methods("DELETE")
+	myRouter.HandleFunc("/user/{name}/{email}", UpdateUser).Methods("PUT")
+	log.Fatal(http.ListenAndServe(":8080", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(myRouter)))
+}
 
-	if port == "" {
-		log.Fatal("$PORT must be set")
-	}
+func main() {
+	fmt.Println("Go ORM")
 
-	router := gin.New()
-	router.Use(gin.Logger())
-	router.LoadHTMLGlob("templates/*.html")
-	router.Static("/static", "static")
+	InitialMigration()
 
-	router.GET("/tick", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)"); err != nil {
-            c.String(http.StatusInternalServerError,
-                fmt.Sprintf("Error creating database table: %q", err))
-            return
-        }
-
-        if _, err := db.Exec("INSERT INTO ticks VALUES (now())"); err != nil {
-            c.String(http.StatusInternalServerError,
-                fmt.Sprintf("Error incrementing tick: %q", err))
-            return
-        }
-
-        rows, err := db.Query("SELECT tick FROM ticks")
-        if err != nil {
-            c.String(http.StatusInternalServerError,
-                fmt.Sprintf("Error reading ticks: %q", err))
-            return
-        }
-
-        defer rows.Close()
-        for rows.Next() {
-            var tick time.Time
-            if err := rows.Scan(&tick); err != nil {
-                c.String(http.StatusInternalServerError,
-                    fmt.Sprintf("Error scanning ticks: %q", err))
-                return
-            }
-            c.String(http.StatusOK, fmt.Sprintf("Read from DB: %s\n", tick.String()))
-		}
-	})
-
-	router.Run(":" + port)
+	handleRequests()
 }
