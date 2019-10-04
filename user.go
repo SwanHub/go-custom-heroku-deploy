@@ -16,18 +16,18 @@ var err error
 
 // the model
 type Language struct {
-	gorm.Model
 	Name  string 
 	Projects []*Project `gorm:"many2many:language_projects;"`
+	gorm.Model
 } 
 
 type Project struct {
-	gorm.Model 
 	Name string 
 	Url string 
 	Description string 
 	Video string
 	Languages []*Language `gorm:"many2many:language_projects;"`
+	gorm.Model 
 }
 
 func InitialMigration() {
@@ -43,34 +43,49 @@ func InitialMigration() {
 	db.AutoMigrate(&Language{}, &Project{})
 }
 
-func AllLanguages(w http.ResponseWriter, r *http.Request) {
+func AllProjects(w http.ResponseWriter, r *http.Request) {
 	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
 	if err != nil {
 		panic("Could not connect to the database")
 	}
 	defer db.Close()
-		
-	// Seeding
-	var ruby Language
-	db.Where("name = ?", "Ruby").Find(&ruby)
-	
-	var rails Language
-	db.Where("name = ?", "Ruby on Rails").Find(&rails)
-	
+
+	// db.Create(&Language{Name: "ruby"})
+	// var languages []Language
+	// var projects []Project
+	// allProjects := db.Find(&projects).Value
+
+	var datatrust Project
+	db.Where("name = ?", "DataTrust").Find(&datatrust)
+	db.Model(&datatrust).Association("Languages").Find(&datatrust.Languages)
 	var primary Project
 	db.Where("name = ?", "PrimarySource").Find(&primary)
-	
-	db.Model(primary).Association("Languages").Append(ruby)
-	db.Model(primary).Association("Languages").Append(rails)
-	
+	db.Model(&primary).Association("Languages").Find(&primary.Languages)
+	var mymdb Project
+	db.Where("name = ?", "MyMDb").Find(&mymdb)
+	db.Model(&mymdb).Association("Languages").Find(&mymdb.Languages)
+	var extension Project
+	db.Where("name = ?", "DataTrust Extension").Find(&extension)
+	db.Model(&extension).Association("Languages").Find(&extension.Languages)
+
+	// for _, project := range allProjects { // can't range over an "instance"
+		// db.Where("name = ?", project.Name).Find(&project)
+		// db.Model(&project).Association("Languages").Find(&project.Languages)
+		// allProjects = append(allProjects, project)
+	// }
+
+	allProjects := map[string]Project{"datatrust": datatrust, 
+									"primarysource": primary,
+									"mymdb": mymdb, 
+									"extension": extension}
+
 	// & == 'all'
-	var languages []Language
-	db.Find(&languages)
-	json.NewEncoder(w).Encode(languages)
+	// var projects []Project
+	json.NewEncoder(w).Encode(allProjects)
 }
 
-func NewLanguage(w http.ResponseWriter, r *http.Request) {
+func NewProject(w http.ResponseWriter, r *http.Request) {
 	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
 	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -81,13 +96,13 @@ func NewLanguage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["name"]
 	
-	newLanguage := map[string]string{"name": name}
+	newProject := map[string]string{"name": name}
 	
-	db.Create(&Language{Name: name})
-	json.NewEncoder(w).Encode(newLanguage)
+	db.Create(&Project{Name: name})
+	json.NewEncoder(w).Encode(newProject)
 }
 
-func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
+func DeleteProject(w http.ResponseWriter, r *http.Request) {
 	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
 	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -98,10 +113,10 @@ func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars["name"]
 	
-	var language Language
-	db.Where("name = ?", name).Find(&language)
+	var project Project
+	db.Where("name = ?", name).Find(&project)
 	
-	db.Delete(&language)
+	db.Delete(&project)
 	json.NewEncoder(w).Encode(name)
 }
 
@@ -136,6 +151,5 @@ func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 	// var react Language
 	// db.Where("name = ?", "React.js").Find(&react)
 
-	// db.Model(datatrust).Association("Languages").Append(react)
-		
-		
+	// db.Model(datatrust).Association("Languages").Append(react)		
+/////////////////////////
