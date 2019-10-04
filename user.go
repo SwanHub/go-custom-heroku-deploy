@@ -67,8 +67,8 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 	db.Create(&Article{Date: "2019/09/2", Title: "The Coddfather: Relational Database Fundamentals", Description: "Exploring relational databases and why they’re ubiquitous. Part 1 of 3 part series...", Publisher: "Better Programming", Claps: 269, Url: "https://medium.com/better-programming/the-coddfather-relational-database-fundamentals-533b96f87651"})
 	
 	// var languages []Language
-	var articles []Project
-	allArticles := db.Find(&articles).Value
+	// var articles []Project
+	// allArticles := db.Find(&articles).Value
 
 	var datatrust Project
 	db.Where("name = ?", "DataTrust").Find(&datatrust)
@@ -95,12 +95,10 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 									"mymdb": mymdb, 
 									"extension": extension}
 
-	
-
 	// & == 'all'
 	// var projects []Project
 	json.NewEncoder(w).Encode(allInfo)
-	json.NewEncoder(w).Encode(allArticles)
+	// json.NewEncoder(w).Encode(allArticles)
 }
 
 func NewProject(w http.ResponseWriter, r *http.Request) {
