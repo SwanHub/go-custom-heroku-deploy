@@ -59,12 +59,6 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 		panic("Could not connect to the database")
 	}
 	defer db.Close()
-
-	db.Create(&Article{Title: "Replace Everything with Pikachu Chrome Extension", Date: "2019/09/18", Description: "Learn the fundamentals of browser extensions: what they are, how they work, why they're useful. Then build a small DOM-manipulator extension.", Claps: 272, Publisher: "Better Programming", Url: "https://medium.com/better-programming/catch-em-all-chrome-extension-d51a8b6813fd"})
-	db.Create(&Article{Title: "Catch Em All Chrome Extension", Date: "2019/09/18", Description: "Step by step tutorial on how to build a Chrome Extension with background script, popup, fetches and localStorage.", Claps: 222, Publisher: "Better Programming", Url: "https://medium.com/better-programming/replace-everything-with-pikachu-chrome-extension-de40497c7f5a"})
-	db.Create(&Article{Title: "Movie Comparison Website in Ruby on Rails", Date: "2019/09/2", Description: "Enjoy the fruits of your triple-join labors by displaying them on a webpage. Building Self-Joins and Triple-Joins in Ruby on Rails... Part 3 of 3.", Claps: 226, Publisher: "Better Programming", Url: "https://medium.com/better-programming/catch-em-all-chrome-extension-d51a8b6813fd"})
-	db.Create(&Article{Date: "2019/09/2", Title: "Building Self-Joins and Triple Joins in Ruby on Rails", Description: "Step-by-step instructional for creating a Ruby on Rails app that implements a self-join, then triple-join relationship. Part 2 of 3...", Publisher: "Better Programming", Claps: 245, Url: "https://medium.com/better-programming/building-self-joins-and-triple-joins-in-ruby-on-rails-455701bf3fa7"})
-	db.Create(&Article{Date: "2019/09/2", Title: "The Coddfather: Relational Database Fundamentals", Description: "Exploring relational databases and why they’re ubiquitous. Part 1 of 3 part series...", Publisher: "Better Programming", Claps: 269, Url: "https://medium.com/better-programming/the-coddfather-relational-database-fundamentals-533b96f87651"})
 	
 	// var languages []Language
 	// var articles []Project
