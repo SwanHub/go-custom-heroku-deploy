@@ -52,6 +52,19 @@ func InitialMigration() {
 	db.AutoMigrate(&Language{}, &Project{}, &Article{})
 }
 
+func AllArticles(w http.ResponseWriter, r *http.Request) {
+	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
+	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
+	if err != nil {
+		panic("Could not connect to the database")
+	}
+	defer db.Close()
+
+	var articles []Article
+	allArticles := db.Find(&articles).Value
+	json.NewEncoder(w).Encode(allArticles)
+}
+
 func AllProjects(w http.ResponseWriter, r *http.Request) {
 	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
@@ -60,10 +73,6 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 	
-	// var languages []Language
-	// var articles []Project
-	// allArticles := db.Find(&articles).Value
-
 	var datatrust Project
 	db.Where("name = ?", "DataTrust").Find(&datatrust)
 	db.Model(&datatrust).Association("Languages").Find(&datatrust.Languages)
@@ -77,7 +86,6 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 	db.Where("name = ?", "DataTrust Extension").Find(&extension)
 	db.Model(&extension).Association("Languages").Find(&extension.Languages)
 
-
 	// for _, project := range allProjects { // can't range over an "instance"
 		// db.Where("name = ?", project.Name).Find(&project)
 		// db.Model(&project).Association("Languages").Find(&project.Languages)
@@ -90,9 +98,7 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 									"extension": extension}
 
 	// & == 'all'
-	// var projects []Project
 	json.NewEncoder(w).Encode(allInfo)
-	// json.NewEncoder(w).Encode(allArticles)
 }
 
 func NewProject(w http.ResponseWriter, r *http.Request) {

@@ -18,6 +18,7 @@ func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", helloWorld).Methods("GET")
 	myRouter.HandleFunc("/projects", AllProjects).Methods("GET")
+	myRouter.HandleFunc("/articles", AllArticles).Methods("GET")
 	myRouter.HandleFunc("/project/{name}", NewProject).Methods("POST")
 	myRouter.HandleFunc("/project/{name}", DeleteProject).Methods("DELETE")
 	// myRouter.HandleFunc("/user/{name}", UpdateLanguage).Methods("PUT")
