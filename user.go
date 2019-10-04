@@ -50,28 +50,44 @@ func AllLanguages(w http.ResponseWriter, r *http.Request) {
 		panic("Could not connect to the database")
 	}
 	defer db.Close()
-
-	db.Create(&Project{Name: "DataTrust"})
-	db.Create(&Project{Name: "PrimarySource"})
-	db.Create(&Project{Name: "MyMDb"})
-
-	db.Create(&Language{Name: "Javascript"})
-	db.Create(&Language{Name: "React.js"})
-	db.Create(&Language{Name: "Ruby"})
-	db.Create(&Language{Name: "Ruby on Rails"})
-	db.Create(&Language{Name: "Go"})
 		
+	// Seeding
+
+	db.Create(&Project{Name: "DataTrust Extension"})
+
 	// db.Model(language).Find(language)
 
-	// var language Language
-	// db.Where("name = ?", "javascript").Find(&language)
+	var javascript Language
+	db.Where("name = ?", "Javascript").Find(&javascript)
+	var ruby Language
+	db.Where("name = ?", "Ruby").Find(&ruby)
+	var rails Language
+	db.Where("name = ?", "Ruby on Rails").Find(&rails)
+	var react Language
+	db.Where("name = ?", "React.js").Find(&react)
+	var golang Language
+	db.Where("name = ?", "Go").Find(&golang)
 
-	// var project Project
-	// db.Where("name = ?", "DataTrust").Find(&project)
+	var datatrust Project
+	db.Where("name = ?", "DataTrust").Find(&datatrust)
+	var extension Project
+	db.Where("name = ?", "DataTrust Extension").Find(&extension)
+	var mymdb Project
+	db.Where("name = ?", "MyMDb").Find(&mymdb)
+	var primary Project
+	db.Where("name = ?", "Primary Source").Find(&primary)
 
-	// db.Model(project).Association("Languages").Append(language)
-	// db.Model(project).Association("Languages").Append(language)
-	// db.Model(project).Association("Languages").Append(language)
+	db.Model(datatrust).Association("Languages").Append(react)
+	db.Model(datatrust).Association("Languages").Append(rails)
+
+	db.Model(extension).Association("Languages").Append(javascript)
+	db.Model(extension).Association("Languages").Append(rails)
+	
+	db.Model(mymdb).Association("Languages").Append(ruby)
+	db.Model(mymdb).Association("Languages").Append(rails)
+
+	db.Model(primary).Association("Languages").Append(ruby)
+	db.Model(primary).Association("Languages").Append(rails)
 
 	// find all projects associated with a language. 
 	// db.Model(&language).Related(&projects,  "Projects")
@@ -137,3 +153,6 @@ func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 // 	json.NewEncoder(w).Encode(&user)
 // 	// fmt.Fprintf(w, "Updated Language")
 // }
+
+// To create a new instance in the database:
+	// db.Create(&Project{Name: "DataTrust"})
