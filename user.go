@@ -31,8 +31,8 @@ type Project struct {
 }
 
 func InitialMigration() {
-	// db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
-	db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
+	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
+	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -83,8 +83,8 @@ func AllLanguages(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewLanguage(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
-	// db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
+	// db, err = gorm.Open("postgres", "host=localhost port=5431 user=jacksonprince password=JaQuEz11! dbname=test3 sslmode=disable")
+	db, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic("Could not connect to the database")
 	}
