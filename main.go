@@ -17,12 +17,14 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", helloWorld).Methods("GET")
-	myRouter.HandleFunc("/users", AllUsers).Methods("GET")
-	myRouter.HandleFunc("/user/{name}/{email}", NewUser).Methods("POST")
-	myRouter.HandleFunc("/user/{name}", DeleteUser).Methods("DELETE")
-	myRouter.HandleFunc("/user/{name}/{email}", UpdateUser).Methods("PUT")
+	myRouter.HandleFunc("/languages", AllLanguages).Methods("GET")
+	myRouter.HandleFunc("/language/{name}", NewLanguage).Methods("POST")
+	myRouter.HandleFunc("/language/{name}", DeleteLanguage).Methods("DELETE")
+	// myRouter.HandleFunc("/user/{name}", UpdateLanguage).Methods("PUT")
+	// log.Fatal(http.ListenAndServe(":8080", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(myRouter)))
 	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(myRouter)))
 }
+
 
 func main() {
 	fmt.Println("Go ORM")
