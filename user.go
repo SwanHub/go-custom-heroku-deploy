@@ -64,6 +64,28 @@ func AllQuotes(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
+	db.Create(&Quote{Quote: "Life is to be lived not controlled; and humanity is won by continuing to play in the face of certain defeat.", Person: "Ralph Ellison"})
+	db.Create(&Quote{Quote: "I have no special talent. I am only passionately curious.", Person: "Albert Einstein"})
+	db.Create(&Quote{Quote: "Life is like riding a bicycle. To keep your balance you must keep moving.", Person: "Albert Einstein"})
+	db.Create(&Quote{Quote: "The adverb is not your friend.", Person: "Stephen King"})
+	db.Create(&Quote{Quote: "The instant does not have time; and time is made from the movement of the instant.", Person: "Leonardo Da Vinci"})
+	db.Create(&Quote{Quote: "I was always out the door at dawn.", Person: "Phil Knight"})
+	db.Create(&Quote{Quote: "No matter the sport–no matter the human endeavor, really–total effort will win people's hearts.", Person: "Phil Knight"})
+	db.Create(&Quote{Quote: "Fear of failure, I thought, will never be our downfall as a company. Not that any of us thought we wouldn't fail; in fact we had every expectation that we would. But when we did fail, we had faith that we'd do it fast, learn from it, and be better for it.", Person: "Phil Knight"})
+	db.Create(&Quote{Quote: "But that's the nature of money. Whether you have it or not, whether you want it or not, whether you like it or not, it will try to define your days. Our task as human beings is not to let it.", Person: "Phil Knight"})
+	db.Create(&Quote{Quote: "Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose. You are already naked. There is no reason not to follow your heart.", Person: "Steve Jobs"})
+	db.Create(&Quote{Quote: "If we made something that we wanted to see, others would want to see it, too.", Person: "Ed Catmull"})
+	db.Create(&Quote{Quote: "Getting the team right is the necessary precursor to getting the ideas right. ", Person: "Ed Catmull"})
+	db.Create(&Quote{Quote: "Mistakes aren't a necessary evil. They aren't evil at all. They are an inevitable consequence of doing something new (and, as such, should be seen as valuable; without them, we'd have no originality).", Person: "Ed Catmull"})
+	db.Create(&Quote{Quote: "Craft is what we are expected to know; art is the unexpected use of our craft.", Person: "Ed Catmull"})
+	db.Create(&Quote{Quote: "The best way to predict the future is to invent it.", Person: "Alan Kay"})
+	db.Create(&Quote{Quote: "Having an ability to figure things out is more important than having specific knowledge of how to do something.", Person: "Ray Dalio"})
+	db.Create(&Quote{Quote: "Try, fail, diagnose, redesign, and try again.", Person: "Ray Dalio"})
+	db.Create(&Quote{Quote: "One learns from books and reels only that certain things can be done. Actual learning requires that you do those things. ", Person: "Frank Herbert"})
+	db.Create(&Quote{Quote: "In general, having more data helps, but having the right data is the more important requirement.", Person: "John D. Kelleher"})
+	db.Create(&Quote{Quote: "Life shrinks or expands in proportion to one's courage.", Person: "Anais Nin"})
+	db.Create(&Quote{Quote: "When a great adventure is offered, you don't refuse it.", Person: "Amelia Earhart"})
+
 	var quotes []Quote
 	allQuotes := db.Find(&quotes).Value
 	json.NewEncoder(w).Encode(allQuotes)
