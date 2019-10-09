@@ -102,6 +102,9 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 	var extension Project
 	db.Where("name = ?", "DataTrust Extension").Find(&extension)
 	db.Model(&extension).Association("Languages").Find(&extension.Languages)
+	var hacker Project
+	db.Where("name = ?", "Heroku Dyno Hacker").Find(&hacker)
+	db.Model(&hacker).Association("Languages").Find(&hacker.Languages)
 
 	// for _, project := range allProjects { // can't range over an "instance"
 	// db.Where("name = ?", project.Name).Find(&project)
@@ -109,10 +112,13 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 	// allProjects = append(allProjects, project)
 	// }
 
-	allInfo := map[string]Project{"datatrust": datatrust,
+	allInfo := map[string]Project{
+		"datatrust": 	 datatrust,
 		"primarysource": primary,
 		"mymdb":         mymdb,
-		"extension":     extension}
+		"extension":     extension,
+		"dynohack":      hacker
+		}
 
 	// & == 'all'
 	json.NewEncoder(w).Encode(allInfo)
