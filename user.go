@@ -113,12 +113,12 @@ func AllProjects(w http.ResponseWriter, r *http.Request) {
 	// }
 
 	allInfo := map[string]Project{
-		"datatrust": 	 datatrust,
+		"datatrust":     datatrust,
 		"primarysource": primary,
 		"mymdb":         mymdb,
 		"extension":     extension,
-		"dynohack":      hacker
-		}
+		"dynohack":      hacker,
+	}
 
 	// & == 'all'
 	json.NewEncoder(w).Encode(allInfo)
